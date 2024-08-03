@@ -3,7 +3,7 @@ from langchain_community.document_transformers import Html2TextTransformer
 from langchain_experimental.text_splitter import SemanticChunker
 
 from app.load_data.webpages import webpages
-from app.utils.vectorstore import embeddings, vectorstore
+from app.retrievers.vectorstore import embeddings, vectorstore
 
 
 def load_web_pages():
