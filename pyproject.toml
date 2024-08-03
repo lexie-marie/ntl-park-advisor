@@ -21,7 +21,8 @@ unstructured = "^0.15.0"
 langchain-experimental = "^0.0.64"
 uvicorn = "^0.23.2"
 langserve = {extras = ["server"], version = ">=0.0.30"}
-pydantic = "<2"
+pydantic = "2.4.2"
+langgraph = "^0.1.19"
 
 
 [tool.poetry.group.dev.dependencies]
