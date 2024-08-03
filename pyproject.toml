@@ -23,6 +23,7 @@ uvicorn = "^0.23.2"
 langserve = {extras = ["server"], version = ">=0.0.30"}
 pydantic = "2.4.2"
 langgraph = "^0.1.19"
+langchain-groq = "^0.1.9"
 
 
 [tool.poetry.group.dev.dependencies]
