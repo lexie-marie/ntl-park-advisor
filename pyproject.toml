@@ -2,9 +2,9 @@
 name = "ntl-park-advisor"
 version = "0.1.0"
 description = "a national parks application"
-authors = ["Sarah Kainec <Sarah.Kainec@focusedlabs.io>"]
+authors = ["Sarah Kainec <Sarah.Kainec@focusedlabs.io>", "Lexie Marinelli <lexie.marinelli@focusedlabs.io>"]
 readme = "README.md"
-
+qu
 [tool.poetry.dependencies]
 python = "3.11.9"
 langchain = "^0.2.12"
