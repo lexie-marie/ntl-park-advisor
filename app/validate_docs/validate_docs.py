@@ -6,9 +6,6 @@ from pydantic import BaseModel, Field
 
 from app.llms.llms import groq_chat
 
-system = "You are a helpful assistant."
-human = "Given the query: {query}"
-
 prompt_template = """
 Given the query: {query}
 And the document: {doc}
