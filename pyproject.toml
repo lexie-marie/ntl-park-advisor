@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "ntl-park-advisor"
+version = "0.1.0"
+description = "a national parks application"
+authors = ["Sarah Kainec <Sarah.Kainec@focusedlabs.io>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.11.9"
+langchain = "^0.2.12"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
