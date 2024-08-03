@@ -23,7 +23,8 @@ def get_videos_from_twelve(state: dict) -> dict:
 
     return {
         **state,
-        "videos": search_results.data.root[0:9]
+        "videos": search_results.data.root[0:4]
+
     }
 
 
