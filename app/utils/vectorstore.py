@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from langchain_openai import OpenAIEmbeddings
 from langchain_pinecone import PineconeVectorStore
 
-from backend.consts import EMBEDDING_MODEL
+from app.utils.consts import EMBEDDING_MODEL
 
 load_dotenv()
 

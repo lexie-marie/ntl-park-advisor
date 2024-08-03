@@ -2,8 +2,8 @@ from langchain_community.document_loaders import PlaywrightURLLoader
 from langchain_community.document_transformers import Html2TextTransformer
 from langchain_experimental.text_splitter import SemanticChunker
 
-from backend.load_data.webpages import webpages
-from backend.vectorstore import vectorstore, embeddings
+from app.load_data.webpages import webpages
+from app.utils.vectorstore import embeddings, vectorstore
 
 
 def load_web_pages():
