@@ -34,5 +34,5 @@ def chat_with_docs(state: dict) -> dict:
     print(answer)
     return {
         **state,
-        "answer": answer
+        "answer": answer.content
     }

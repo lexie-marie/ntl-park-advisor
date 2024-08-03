@@ -16,14 +16,6 @@ Is this document relevant to the query? Answer only Yes or No.
 PROMPT = PromptTemplate(template=prompt_template, input_variables=["query", "doc"])
 
 
-class DocRelevancy(BaseModel):
-    """Is a document relevant to a query?"""
-
-    relevancy: str = Field(
-        description="Document relevancy, 'Yes', 'No'",
-    )
-
-
 def validate_docs(state: dict) -> dict:
     print("validating docs")
     docs = state["documents"]
@@ -34,9 +26,9 @@ def validate_docs(state: dict) -> dict:
         chain = (RunnableParallel(
             doc=itemgetter("doc"),
             query=itemgetter("query")
-        ) | PROMPT | groq_chat.with_structured_output(DocRelevancy))
+        ) | PROMPT | groq_chat)
         relevancy = chain.invoke({"query": query, "doc": doc})
-        if relevancy.relevancy == "Yes":
+        if "yes" in relevancy.content.lower():
             relevant_docs.append(doc)
 
     return {
