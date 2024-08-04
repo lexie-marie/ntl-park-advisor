@@ -17,5 +17,5 @@ def ask_the_internet(state: dict) -> dict:
 
     return {
         **state,
-        "relevant_documents": all_docs,
+        "relevant_docs": all_docs,
     }
