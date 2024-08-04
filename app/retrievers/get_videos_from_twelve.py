@@ -44,14 +44,13 @@ def get_videos_from_twelve(state: dict) -> dict:
         for vid_value in script.root:
             whole_script = whole_script + " " + vid_value.value
 
-        transcript_data.append(VideoTranscript(video_id=id, video_url=url.hls.video_url, transcript=whole_script))
+        transcript_data.append({"video_id": id, "video_url": url.hls.video_url, "transcript": whole_script})
 
     return {
         **state,
-        "video_urls": urls,
+        "video_urls": [url.hls.video_url for url in urls],
         "transcript_data": transcript_data
     }
 
-
 # query = "Tell me about pollinators in Glacier."
-# get_videos_from_twelve({"query": query})
+# print("final output =", get_videos_from_twelve({"query": query}))

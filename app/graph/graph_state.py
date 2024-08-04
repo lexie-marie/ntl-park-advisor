@@ -1,9 +1,6 @@
 from typing import TypedDict, List
 
 from langchain_core.documents import Document
-from twelvelabs.models import SearchData
-
-from app.retrievers.get_videos_from_twelve import VideoTranscript
 
 
 class GraphState(TypedDict):
