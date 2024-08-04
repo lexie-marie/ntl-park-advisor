@@ -6,10 +6,10 @@ export default function Sidebar(
             showPlan: boolean|null,
             setShowPlan: (showPlan: boolean) => void }
 ) {
-    const buttonCss = (selected:boolean|null) => `inline-flex items-center px-4 py-3 rounded-lg bg-gray-50 w-full dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white active:forest-green ` +  (selected ? `bg-forest-green text-white` : ``)
-    const iconCss = (selected:boolean|null) => `w-4 h-4 me-2 text-gray-500 dark:text-gray-400 ` + (selected ? `text-white` : ``)
+    const buttonCss = (selected:boolean|null) => `inline-flex items-center px-4 py-3 rounded-lg bg-gray-50 w-full active:forest-green ` +  (selected ? `bg-forest-green text-white` : ``)
+    const iconCss = (selected:boolean|null) => `w-4 h-4 me-2 text-gray-500 ` + (selected ? `text-white` : ``)
     return (
-        <ul className="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0">
+        <ul className="flex-column space-y space-y-4 text-sm font-medium text-gray-500 md:me-4 mb-4 md:mb-0">
             <li>
                 <a href="#"
                    className={buttonCss(showLearn)}
