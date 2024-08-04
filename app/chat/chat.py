@@ -41,51 +41,42 @@ def transform_transcripts(state: dict) -> list[Document]:
     return transcript_documents
 
 
-def transform_chat_history(state: dict) -> List[object]:
-    history = []
+def transform_chat_history(state: dict) -> str:
+    print("transforming chat history")
+    history = ""
     for message in state["chat_history"]:
         if message["isUser"]:
-            history.append("Human:" + message["message"])
+            history = history + "Human: " + message["message"]+"\n"
         else:
-            history.append("AI:" + message["message"])
-
+            history = history + "AI: " + message["message"]+"\n"
     return history
 
 
 def chat_with_docs(state: dict) -> dict:
     print("chatting with docs")
 
-    chat_history_formatted = transform_chat_history(state["chat_history"])
+    chat_history_formatted = transform_chat_history(state)
 
     standalone_question = RunnableParallel(
         question=RunnableParallel(
             question=itemgetter("query"),
-            chat_history=lambda x: get_buffer_string(x["chat_history"])
+            chat_history=itemgetter("chat_history")
         ) | condense_question_prompt | groq_chat | StrOutputParser()
     )
     transcripts = transform_transcripts(state)
 
     chain = (standalone_question |
              RunnableParallel(
-                 context=itemgetter("context"),
-                 query=itemgetter("question"),
-                 chat_history=itemgetter("chat_history")
+                 context=RunnablePassthrough(),
+                 query=RunnablePassthrough(),
+                 chat_history=RunnablePassthrough()
              ) | PROMPT | groq_chat)
-
-    # final_chain = RunnableWithMessageHistory(
-    #     runnable=standalone_question | chain,
-    #     input_messages_key="question",
-    #     history_messages_key="chat_history",
-    #     output_messages_key="answer",
-    #     get_session_history=
-    # )
 
     answer = chain.invoke(
         {"query": state["query"],
          "context": state["relevant_docs"] + transcripts,
-         "chat_history": state["chat_history"]
+         "chat_history": chat_history_formatted
          })
-    print(answer)
     return {
         **state,
         "answer": answer.content
