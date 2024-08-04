@@ -67,7 +67,6 @@ def chat_with_docs(state: dict) -> dict:
                  query=RunnablePassthrough(),
                  chat_history=RunnablePassthrough()
              ) | PROMPT | groq_chat)
-
     answer = chain.invoke(
         {"query": state["query"],
          "context": state["relevant_docs"] + transcripts,
@@ -75,5 +74,6 @@ def chat_with_docs(state: dict) -> dict:
          })
     return {
         **state,
-        "answer": answer.content
+        "answer": answer.content,
+        "sources": [doc.metadata["source"] for doc in state["relevant_docs"]]
     }

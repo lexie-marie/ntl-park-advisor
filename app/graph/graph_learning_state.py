@@ -11,3 +11,4 @@ class LeaningGraphState(TypedDict):
     video_urls: List[str] = []
     transcript_data: List[object] = []
     answer: str
+    sources: List[str]
