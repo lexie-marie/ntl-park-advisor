@@ -31,6 +31,7 @@ export default function Learn() {
             body: JSON.stringify({
                 input: {
                     query: message,
+                    chat_history:messages
                 },
             }),
             onmessage(event) {
