@@ -1,5 +1,21 @@
 # ntl-park-advisor
 
+## Front end
+Front end will need a .env file with the following variables in the `.\frontend` directory:
+```
+VITE_API_URL = "http://localhost:8000"
+```
+
+cd into the `frontend` directory and run the following commands:
+```
+npm i
+```
+Then you can run the following command to start the front end:
+```
+npm run dev
+```
+
+## Back end
 ## Installation
 
 Install the LangChain CLI if you haven't yet
@@ -8,72 +24,26 @@ Install the LangChain CLI if you haven't yet
 pip install -U langchain-cli
 ```
 
-## Adding packages
+Navigate to the root directory and set up you virtual environment:
+
 
 ```bash
-# adding packages from 
-# https://github.com/langchain-ai/langchain/tree/master/templates
-langchain app add $PROJECT_NAME
-
-# adding custom GitHub repo packages
-langchain app add --repo $OWNER/$REPO
-# or with whole git string (supports other git providers):
-# langchain app add git+https://github.com/hwchase17/chain-of-verification
-
-# with a custom api mount point (defaults to `/{package_name}`)
-langchain app add $PROJECT_NAME --api_path=/my/custom/path/rag
+python3 -m venv .venv  
+source .venv/bin/activate
+poetry install
 ```
 
-Note: you remove packages by their api path
-
-```bash
-langchain app remove my/custom/path/rag
+Create a .env file in the root directory with the following variables:
 ```
-
-## Setup LangSmith (Optional)
-LangSmith will help us trace, monitor and debug LangChain applications. 
-You can sign up for LangSmith [here](https://smith.langchain.com/). 
-If you don't have access, you can skip this section
-
-
-```shell
-export LANGCHAIN_TRACING_V2=true
-export LANGCHAIN_API_KEY=<your-api-key>
-export LANGCHAIN_PROJECT=<your-project>  # if not specified, defaults to "default"
+PINECONE_API_KEY=<pinecone key>
+OPENAI_API_KEY=<openai key>
+TL_API_KEY=<twelve labs key>
+GROQ_API_KEY=<groq key>
+TAVILY_API_KEY=<tavily api key>
 ```
+We can send our .env if  you are trying to run the project locally.
 
-## Launch LangServe
-
+Run the following command to start the backend:
 ```bash
 langchain serve
-```
-
-## Running in Docker
-
-This project folder includes a Dockerfile that allows you to easily build and host your LangServe app.
-
-### Building the Image
-
-To build the image, you simply:
-
-```shell
-docker build . -t my-langserve-app
-```
-
-If you tag your image with something other than `my-langserve-app`,
-note it for use in the next step.
-
-### Running the Image Locally
-
-To run the image, you'll need to include any environment variables
-necessary for your application.
-
-In the below example, we inject the `OPENAI_API_KEY` environment
-variable with the value set in my local environment
-(`$OPENAI_API_KEY`)
-
-We also expose port 8080 with the `-p 8080:8080` option.
-
-```shell
-docker run -e OPENAI_API_KEY=$OPENAI_API_KEY -p 8080:8080 my-langserve-app
 ```
