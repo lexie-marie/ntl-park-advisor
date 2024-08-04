@@ -39,6 +39,7 @@ classification = [
 
 def get_classified_videos_from_twelve(state: dict) -> dict:
     print("getting videos")
+
     load_dotenv()
     client = TwelveLabs(api_key=os.getenv("TL_API_KEY"))
 
@@ -50,11 +51,11 @@ def get_classified_videos_from_twelve(state: dict) -> dict:
 
     filtered_search = []
     unique_vids_id = []
+    # print("classified_result =", classified_result.data.root)
     for clips in classified_result.data.root:
-        if clips.video_id not in unique_vids_id:
+        if clips.video_id not in unique_vids_id and clips.classes.root[0].name == state["destination"]:
             unique_vids_id.append(clips.video_id)
             filtered_search.append(clips)
-
     urls = []
     for id in unique_vids_id[0:4]:
         url = client.index.video.retrieve(index_id=TL_INDEX_ID, id=id)
@@ -64,7 +65,3 @@ def get_classified_videos_from_twelve(state: dict) -> dict:
         **state,
         "video_urls": [url.hls.video_url for url in urls],
     }
-
-
-# query = "Tell me about pollinators in Glacier."
-# print("final output =", get_videos_from_twelve({"query": query}))
