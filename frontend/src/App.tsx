@@ -16,7 +16,7 @@ function App() {
           <main className="flex-grow container mx-auto flex-col">
               <div className="md:flex">
                   <div className="w-1/6">
-                  <Sidebar setShowLearn={setShowLearn} setShowPlan={setShowPlan}/>
+                  <Sidebar showLearn={showLearn} setShowLearn={setShowLearn} showPlan={showPlan} setShowPlan={setShowPlan}/>
                   </div>
                       <div className="w-5/6">
                       {showLearn && <Learn />}
