@@ -30,5 +30,3 @@ workflow.add_edge("chat_with_docs", END)
 
 workflow.set_entry_point("get_docs_from_vector_store")
 learning_graph = workflow.compile()
-
-# print(learning_graph.invoke({"query": "what kind of hikes are at rocky mountain national park?"}))
