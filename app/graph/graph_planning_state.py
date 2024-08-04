@@ -10,6 +10,5 @@ class PlanningGraphState(TypedDict):
     interests: str
     documents: List[Document] = []
     relevant_docs: List[Document] = []
-    video_urls: List[str] = [],
-    transcript_data: List[object] = [],
+    video_urls: List[str] = []
     answer: str
