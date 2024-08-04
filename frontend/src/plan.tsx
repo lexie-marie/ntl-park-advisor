@@ -25,7 +25,7 @@ export default function Plan() {
         setAnswer("")
         setVideoUrls([])
         setShowSpinner(true)
-        await fetchEventSource(`${"http://localhost:8000"}/planning/stream`, {
+        await fetchEventSource(`${import.meta.env.VITE_API_URL}/planning/stream`, {
             method: 'POST',
             openWhenHidden: true,
             headers: {"Content-Type": "application/json"},

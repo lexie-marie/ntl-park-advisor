@@ -1,4 +1,4 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import {fetchEventSource} from "@microsoft/fetch-event-source";
 import {BeatLoader} from "react-spinners";
 import Markdown from "react-markdown";
@@ -68,9 +68,15 @@ export default function Learn() {
                             <div className="text-xs">
                                 {message.sources?.map((source, index) => (
                                     <div key={index}>
-                                        <video width="352" height="198" controls>
-                                            <source src={source} type="application/x-mpegURL" />
+                                        <video id="my-video" className="video-js vjs-default-skin" controls
+                                               preload="auto" width="640"
+                                               height="264" data-setup='{"fluid": true}'>
+                                            <source src={source}
+                                                    type="application/x-mpegURL"/>
                                         </video>
+                                        <script>
+                                            var player = videojs('my-video');
+                                        </script>
                                     </div>
                                 ))}
                             </div>
