@@ -4,6 +4,7 @@ from langserve import add_routes
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.graph.build_learning_graph import learning_graph
+from app.graph.building_planning_graph import planning_graph
 
 app = FastAPI()
 app.add_middleware(
@@ -21,6 +22,7 @@ async def redirect_root_to_docs():
 
 # Edit this to add the chain you want to add
 add_routes(app, learning_graph, path="/rag")
+add_routes(app, planning_graph, path="/planning")
 
 if __name__ == "__main__":
     import uvicorn

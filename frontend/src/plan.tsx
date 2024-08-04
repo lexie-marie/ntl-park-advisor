@@ -1,22 +1,30 @@
 import React, {ChangeEvent, SyntheticEvent, useState} from "react";
 import {fetchEventSource} from "@microsoft/fetch-event-source";
-// import {fetchEventSource} from "@microsoft/fetch-event-source";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import {BeatLoader} from "react-spinners";
 type Season = "spring" | "summer" | "fall" | "winter";
 
 export default function Plan() {
     const [destination, setDestination] = useState<string | null>(null)
-    const [season,setSeason] = useState<Season | null>()
-    const [duration, setDuration] = useState<string>()
+    const [season, setSeason] = useState<Season | null>()
+    const [duration, setDuration] = useState<string>("")
     const [interests, setInterests] = useState<string>("")
+    const [answer, setAnswer] = useState<string>("")
+    const [videoUrls, setVideoUrls] = useState<string[]>([])
+    const [showSpinner, setShowSpinner] = useState<boolean>(false)
+
     const onDestinationSelect = (event: React.SyntheticEvent<HTMLSelectElement>) => {
         setDestination(event.currentTarget.value)
     }
     const onSeasonSelect = (event: React.SyntheticEvent<HTMLSelectElement>) => {
         setSeason(event.currentTarget.value as Season)
     }
-    const handleSendMessage = async (message: string) => {
-        // setMessage(prevMessages => [...prevMessages, {message, isUser: true}]);
-        await fetchEventSource(`${import.meta.env.VITE_API_URL}/rag/stream`, {
+    const onFormSubmit = async () => {
+        setAnswer("")
+        setVideoUrls([])
+        setShowSpinner(true)
+        await fetchEventSource(`${"http://localhost:8000"}/planning/stream`, {
             method: 'POST',
             openWhenHidden: true,
             headers: {"Content-Type": "application/json"},
@@ -26,24 +34,20 @@ export default function Plan() {
                     season: season,
                     duration: duration,
                     interests: interests,
-                },
-                // config: {
-                //     configurable: {
-                //         sessionId: session_id_ref.current
-                //     }
-                // }
+                }
             }),
             onmessage(event) {
-                console.log(event)
-                // if (event.event === "data") {
-                //     handleReceiveMessage(event.data);
-                // }
+                if (event.event === "data") {
+                    const parsed_data = JSON.parse(event.data)
+                    if ('chat_with_docs' in parsed_data) {
+                        const chat_results = parsed_data['chat_with_docs']
+                        setAnswer(chat_results['answer'])
+                        setVideoUrls(chat_results['video_urls'])
+                        setShowSpinner(false)
+                    }
+                }
             }
         })
-    }
-
-    const onFormSubmit = () => {
-        // todo: do something
     }
 
     return (
@@ -53,17 +57,17 @@ export default function Plan() {
             <form className="max-w-sm mx-auto">
                 <label htmlFor="parks" className="mb-2 text-left flex-col flex item">Where would you like to go?</label>
                 <select id="parks"
-                        onSelect={(event: SyntheticEvent<HTMLSelectElement>) => onDestinationSelect(event)}
+                        onChange={(event: SyntheticEvent<HTMLSelectElement>) => onDestinationSelect(event)}
                         className="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <option value={"default"} defaultValue={"default"}>Select a National Park</option>
-                    <option value="RMNP">Rocky Mountain National Park</option>
-                    <option value="GNP">Glacier National Park
+                    <option value="Rocky Mountain National Park">Rocky Mountain National Park</option>
+                    <option value="Glacier National Park">Glacier National Park
                     </option>
                 </select>
                 <div className="p-2"/>
                 <label htmlFor="season" className="mb-2 text-left flex-col flex">What time of year?</label>
                 <select id="season"
-                        onSelect={(event: SyntheticEvent<HTMLSelectElement>) => onSeasonSelect(event)}
+                        onChange={(event: SyntheticEvent<HTMLSelectElement>) => onSeasonSelect(event)}
                         className="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <option value={"default"} defaultValue={"default"}>Choose a season</option>
                     <option value="spring">Spring</option>
@@ -90,7 +94,20 @@ export default function Plan() {
                     Submit
                 </button>
             </form>
-
+            {showSpinner && <div className="mt-2"><BeatLoader/></div>}
+            {answer && <div>
+                <h1>Your Trip Itinerary</h1>
+                <Markdown remarkPlugins={[remarkGfm]} className="text-left">{answer}</Markdown>
+            </div>}
+            {
+                videoUrls.map((url, _) => (
+                    <div>
+                        <video width="352" height="198" controls>
+                            <source src={url} type="application/x-mpegURL"/>
+                        </video>
+                    </div>
+                ))
+            }
         </div>
     )
 }

@@ -35,7 +35,6 @@ export default function Learn() {
                 },
             }),
             onmessage(event) {
-                console.log(event)
                 if (event.event === "data") {
                     const parsed_data = JSON.parse(event.data)
                     if('chat_with_docs' in parsed_data){
