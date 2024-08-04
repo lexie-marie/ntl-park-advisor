@@ -30,7 +30,6 @@ def chat_with_docs(state: dict) -> dict:
         query=itemgetter("query")
     ) | PROMPT | groq_chat)
     answer = chain.invoke({"query": state["query"], "context": state["relevant_docs"]})
-
     print(answer)
     return {
         **state,

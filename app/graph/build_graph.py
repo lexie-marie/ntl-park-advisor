@@ -6,7 +6,6 @@ from app.graph.graph_state import GraphState
 from app.retrievers.doc_store.get_docs_from_vectorstore import get_docs_from_vector_store
 from app.validate_docs.validate_docs import validate_docs
 
-graph_nodes = ["get_docs_from_vector_store", "validate_docs", "chat_with_docs"]
 workflow = StateGraph(GraphState)
 
 workflow.add_node("get_docs_from_vector_store", get_docs_from_vector_store)

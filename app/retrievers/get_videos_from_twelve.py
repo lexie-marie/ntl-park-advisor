@@ -1,10 +1,8 @@
 import os
-from typing import Literal, List, Tuple, Any
 
 from dotenv import load_dotenv
-from openai import BaseModel
+from pydantic import BaseModel
 from twelvelabs import TwelveLabs
-from twelvelabs.models import SearchData
 
 from app.utils.consts import TL_INDEX_ID
 
@@ -24,8 +22,6 @@ def get_videos_from_twelve(state: dict) -> dict:
         query_text=state["query"],
         options=["visual"]
     )
-    # vids_id = [clip.video_id for clip in search_results.data.root]
-    # unique_vids_id = list(set(vids_id))
 
     filtered_search = []
     unique_vids_id = []
@@ -33,7 +29,6 @@ def get_videos_from_twelve(state: dict) -> dict:
         if clips.video_id not in unique_vids_id:
             unique_vids_id.append(clips.video_id)
             filtered_search.append(clips)
-
 
     transcript_data = []
     urls = []
@@ -49,7 +44,7 @@ def get_videos_from_twelve(state: dict) -> dict:
     return {
         **state,
         "videos": filtered_search[0:4],
-        "video_urls":urls,
+        "video_urls": urls,
         "transcript_data": transcript_data
     }
 
