@@ -39,7 +39,11 @@ def get_videos_from_twelve(state: dict) -> dict:
         )
         url = client.index.video.retrieve(index_id=TL_INDEX_ID, id=id)
         urls.append(url)
-        transcript_data.append(VideoTranscript(video_id=id, video_url=url.hls.video_url, transcript=script))
+        whole_script = ""
+        for vid_value in script.root:
+            whole_script = whole_script + " " + vid_value.value
+
+        transcript_data.append(VideoTranscript(video_id=id, video_url=url.hls.video_url, transcript=whole_script))
 
     return {
         **state,
