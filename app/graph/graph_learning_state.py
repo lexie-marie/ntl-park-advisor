@@ -3,7 +3,7 @@ from typing import TypedDict, List
 from langchain_core.documents import Document
 
 
-class GraphState(TypedDict):
+class LeaningGraphState(TypedDict):
     query: str
     documents: List[Document] = []
     relevant_docs: List[Document] = []

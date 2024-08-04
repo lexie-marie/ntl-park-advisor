@@ -2,7 +2,6 @@ from operator import itemgetter
 
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnableParallel
-from pydantic import BaseModel, Field
 
 from app.llms.llms import groq_chat
 
@@ -16,7 +15,7 @@ Is this document relevant to the query? Answer only Yes or No.
 PROMPT = PromptTemplate(template=prompt_template, input_variables=["query", "doc"])
 
 
-def validate_docs(state: dict) -> dict:
+def validate_learning_docs(state: dict) -> dict:
     print("validating docs")
     docs = state["documents"]
     query = state["query"]

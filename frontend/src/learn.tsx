@@ -66,7 +66,7 @@ export default function Learn() {
 
                         {!message.isUser && (
                             <div className="text-xs">
-                                {message.sources?.map((source, index) => (
+                                {message.sources?.map((source, _) => (
                                     <div>
                                         <video width="352" height="198" controls>
                                             <source src={source} type="application/x-mpegURL" />
