@@ -16,7 +16,6 @@ PROMPT = PromptTemplate(template=prompt_template, input_variables=["query", "doc
 
 
 def validate_learning_docs(state: dict) -> dict:
-    print("validating docs")
     docs = state["documents"]
     query = state["query"]
     relevant_docs = []

@@ -36,19 +36,7 @@ Create an itinerary:
 PROMPT = PromptTemplate(template=prompt_template, input_variables=["destination", "season", "duration", "interests", "context"])
 
 
-# def transform_transcripts(state: dict) -> list[Document]:
-#     print("transforming transcripts")
-#     transcript_documents = []
-#     for video in state["transcript_data"]:
-#         transcript_documents.append(Document(video['transcript']))
-#     return transcript_documents
-
-
 def chat_with_planning_docs(state: dict) -> dict:
-    print("chatting with docs")
-
-    # transcripts = transform_transcripts(state)
-
     chain = (RunnableParallel(
         context=itemgetter("context"),
         destination=itemgetter("destination"),
@@ -63,7 +51,6 @@ def chat_with_planning_docs(state: dict) -> dict:
          "interests": state["interests"],
          "context": state["relevant_docs"] # + transcripts,
          })
-    print(answer)
     return {
         **state,
         "answer": answer.content

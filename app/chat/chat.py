@@ -34,7 +34,6 @@ condense_question_prompt = PromptTemplate.from_template(_template)
 
 
 def transform_transcripts(state: dict) -> list[Document]:
-    print("transforming transcripts")
     transcript_documents = []
     for video in state["transcript_data"]:
         transcript_documents.append(Document(video['transcript']))
@@ -42,7 +41,6 @@ def transform_transcripts(state: dict) -> list[Document]:
 
 
 def transform_chat_history(state: dict) -> str:
-    print("transforming chat history")
     history = ""
     for message in state["chat_history"]:
         if message["isUser"]:
@@ -53,8 +51,6 @@ def transform_chat_history(state: dict) -> str:
 
 
 def chat_with_docs(state: dict) -> dict:
-    print("chatting with docs")
-
     chat_history_formatted = transform_chat_history(state)
 
     standalone_question = RunnableParallel(
