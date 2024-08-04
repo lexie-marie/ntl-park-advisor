@@ -3,6 +3,7 @@ import {fetchEventSource} from "@microsoft/fetch-event-source";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import {BeatLoader} from "react-spinners";
+
 type Season = "spring" | "summer" | "fall" | "winter";
 
 export default function Plan() {
@@ -79,13 +80,13 @@ export default function Plan() {
 
                 <label htmlFor="duration" className="mb-2 text-left flex-col flex">How many days?</label>
                 <textarea id="duration"
-                          className="form-textarea border rounded-lg text-darker-green outline-sage-green bg-stone-100 resize-none w-12/12 focus:outline-none h-auto mr-2 p-2"
+                          className="form-textarea border rounded-lg text-darker-green outline-sage-green bg-stone-100 resize-none w-full focus:outline-none h-auto mr-2 p-2"
                           onChange={(event: ChangeEvent<HTMLTextAreaElement>) => setDuration(event.target.value)}></textarea>
                 <div className="p-2"/>
 
                 <label htmlFor="interests" className="mb-2 text-left flex-col flex">What are you interested in?</label>
                 <textarea id="interests"
-                          className="form-textarea border rounded-lg text-darker-green outline-sage-green bg-stone-100 resize-none w-12/12 focus:outline-none h-auto mr-2 p-2"
+                          className="form-textarea border rounded-lg text-darker-green outline-sage-green bg-stone-100 resize-none w-full focus:outline-none h-auto mr-2 p-2"
                           onChange={(event: ChangeEvent<HTMLTextAreaElement>) => setInterests(event.target.value)}></textarea>
                 <div className="p-2"/>
                 <button
@@ -95,18 +96,23 @@ export default function Plan() {
                 </button>
             </form>
             {showSpinner && <div className="mt-2"><BeatLoader/></div>}
-            {answer && <div>
-                <h1>Your Trip Itinerary</h1>
-                <Markdown remarkPlugins={[remarkGfm]} className="text-left">{answer}</Markdown>
-            </div>}
-            {
-                videoUrls.map((url, _) => (
-                    <div>
-                        <video width="352" height="198" controls>
-                            <source src={url} type="application/x-mpegURL"/>
-                        </video>
-                    </div>
-                ))
+            {answer && <div className="p-10 my-3 rounded-lg bg-stone-200">
+                <div>
+                    <h1 className="text-xl text-darker-green mb-1">Your Trip Itinerary</h1>
+                    <Markdown remarkPlugins={[remarkGfm]} className="text-left">{answer}</Markdown>
+                </div>
+                <hr className="my-2"/>
+                <div className="flex-col flex items-center">
+                    <h1 className="text-xl text-darker-green mb-1">Videos to learn more:</h1>
+                    {videoUrls.map((url, index) => (
+                        <div className="mb-1" key={index}>
+                            <video width="352" height="198" controls>
+                                <source src={url} type="application/x-mpegURL"/>
+                            </video>
+                        </div>
+                    ))}
+                </div>
+            </div>
             }
         </div>
     )
