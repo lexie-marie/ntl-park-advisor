@@ -72,6 +72,8 @@ def chat_with_docs(state: dict) -> dict:
          "context": state["relevant_docs"] + transcripts,
          "chat_history": chat_history_formatted
          })
+    print(state["relevant_docs"])
+    print("source", [doc.metadata["source"] for doc in state["relevant_docs"]])
     return {
         **state,
         "answer": answer.content,

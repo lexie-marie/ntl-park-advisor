@@ -15,9 +15,11 @@ export default function Learn() {
     const [inputValue, setInputValue] = useState<string>("")
     const [messages, setMessages] = useState<Message[]>([])
     const [showSpinner, setShowSpinner] = useState<boolean>(false)
+    const [sources, setSources] = useState<string[]>([])
 
-    function handleReceiveMessage(answer: string, video_urls: string[]) {
+    function handleReceiveMessage(answer: string, video_urls: string[], source_urls: string[]) {
         setMessages(prevMessages => [...prevMessages, {message: answer, isUser: false, sources: video_urls}]);
+        setSources(source_urls)
         setShowSpinner(false)
     }
 
@@ -41,8 +43,9 @@ export default function Learn() {
                     if ('chat_with_docs' in parsed_data) {
                         const chat_results = parsed_data['chat_with_docs']
                         const answer = chat_results['answer']
+                        const source_urls = chat_results['sources']
                         const video_urls = chat_results['video_urls']
-                        handleReceiveMessage(answer, video_urls);
+                        handleReceiveMessage(answer, video_urls, source_urls);
                     }
                 }
             }
@@ -89,6 +92,18 @@ export default function Learn() {
                                             {
                                                 <VideoJS {...getPlayerMetadata(source)} />
                                             }
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="text-xs">
+                                    {sources.map((source, index) => (
+                                        <div key={index}>
+                                            <a target="_blank"
+                                               download
+                                               href={`${encodeURI(source)}`}
+                                               rel="noopener noreferrer">
+                                                {source}
+                                            </a>
                                         </div>
                                     ))}
                                 </div>
