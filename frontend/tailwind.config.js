@@ -19,7 +19,7 @@ export default {
         'med-green':'#329c64',
         'dark-green':'#3c6738',
         'darker-green': '#1D4233',
-        'forest-green': '#569151',
+        'forest-green': '#569151'
       },
     },
   },
