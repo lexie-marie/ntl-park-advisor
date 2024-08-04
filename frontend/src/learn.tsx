@@ -24,7 +24,7 @@ export default function Learn() {
         setInputValue("")
         setShowSpinner(true)
         setMessages(prevMessages => [...prevMessages, {message, isUser: true}]);
-        await fetchEventSource(`${"http://localhost:8000"}/rag/stream`, {
+        await fetchEventSource(`${import.meta.env.VITE_API_URL}/rag/stream`, {
             method: 'POST',
             openWhenHidden: true,
             headers: {"Content-Type": "application/json"},
