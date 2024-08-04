@@ -10,7 +10,7 @@ function App() {
 
   return (
       <div className="min-h-screen flex flex-col min-w-full">
-          <header className="text-gray-700 text-center p-4 font-bold">
+          <header className="text-darker-green text-center p-4 font-bold">
               National Park Advisor
           </header>
           <main className="flex-grow container mx-auto flex-col">
