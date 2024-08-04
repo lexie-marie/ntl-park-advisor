@@ -14,6 +14,7 @@ class VideoTranscript(BaseModel):
 
 
 def get_videos_from_twelve(state: dict) -> dict:
+    print("getting videos")
     load_dotenv()
     client = TwelveLabs(api_key=os.getenv("TL_API_KEY"))
 
@@ -47,7 +48,6 @@ def get_videos_from_twelve(state: dict) -> dict:
 
     return {
         **state,
-        "videos": filtered_search[0:4],
         "video_urls": urls,
         "transcript_data": transcript_data
     }
