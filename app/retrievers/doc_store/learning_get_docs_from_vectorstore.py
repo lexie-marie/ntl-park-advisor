@@ -2,7 +2,6 @@ from app.retrievers.vectorstore import vectorstore
 
 
 def get_learning_docs_from_vector_store(state: dict) -> dict:
-    print("getting docs")
     docs = vectorstore.search(state["query"], k=5, search_type="mmr")
     return {
         **state,

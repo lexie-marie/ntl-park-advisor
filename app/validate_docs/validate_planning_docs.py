@@ -20,7 +20,6 @@ PROMPT = PromptTemplate(
 
 
 def validate_planning_docs(state: dict) -> dict:
-    print("validating docs")
     docs = state["documents"]
     relevant_docs = []
 
@@ -41,7 +40,6 @@ def validate_planning_docs(state: dict) -> dict:
             "doc": doc
         })
         if "yes" in relevancy.content.lower():
-            print(f"Document {doc} is relevant {relevancy.content}")
             relevant_docs.append(doc)
 
     return {

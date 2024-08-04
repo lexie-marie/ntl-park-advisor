@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {fetchEventSource} from "@microsoft/fetch-event-source";
 import {BeatLoader} from "react-spinners";
 import Markdown from "react-markdown";
+import {VideoJS} from "./videoJS.tsx";
 
 interface Message {
     message: string;
@@ -31,13 +32,13 @@ export default function Learn() {
             body: JSON.stringify({
                 input: {
                     query: message,
-                    chat_history:messages
+                    chat_history: messages
                 },
             }),
             onmessage(event) {
                 if (event.event === "data") {
                     const parsed_data = JSON.parse(event.data)
-                    if('chat_with_docs' in parsed_data){
+                    if ('chat_with_docs' in parsed_data) {
                         const chat_results = parsed_data['chat_with_docs']
                         const answer = chat_results['answer']
                         const video_urls = chat_results['video_urls']
@@ -54,6 +55,20 @@ export default function Learn() {
         }
     }
 
+    const getPlayerMetadata = (source: string) => {
+        return {
+            "fill": true,
+            "fluid": true,
+            "autoplay": false,
+            "controls": true,
+            "preload": "metadata",
+            "sources": [{
+                "src": source,
+                "type": "application/x-mpegURL"
+            }]
+        };
+    }
+
     return (
         <div
             className="p-6 bg-gray-50 text-medium text-gray-500 rounded-lg w-full min-w-full h-full">
@@ -62,24 +77,22 @@ export default function Learn() {
                 {messages.map((message, index) => (
                     <div key={index}
                          className={`p-2 my-3 rounded-lg ${message.isUser ? "text-gray-500" : "text-white bg-stone-400"}`}>
-                        <Markdown className={`${message.isUser ? "text-right" : "text-left"}`}>{message.message}</Markdown>
+                        <Markdown
+                            className={`${message.isUser ? "text-right" : "text-left"}`}>{message.message}</Markdown>
 
                         {!message.isUser && (
-                            <div className="text-xs">
-                                {message.sources?.map((source, index) => (
-                                    <div key={index}>
-                                        <video id="my-video" className="video-js vjs-default-skin" controls
-                                               preload="auto" width="640"
-                                               height="264" data-setup='{"fluid": true}'>
-                                            <source src={source}
-                                                    type="application/x-mpegURL"/>
-                                        </video>
-                                        <script>
-                                            var player = videojs('my-video');
-                                        </script>
-                                    </div>
-                                ))}
-                            </div>
+                            <>
+                                <div className="text-lg text-darker-green my-4">Videos for you:</div>
+                                <div className="text-xs">
+                                    {message.sources?.map((source, index) => (
+                                        <div key={index}>
+                                            {
+                                                <VideoJS {...getPlayerMetadata(source)} />
+                                            }
+                                        </div>
+                                    ))}
+                                </div>
+                            </>
                         )}
                     </div>
                 ))}

@@ -3,6 +3,7 @@ import {fetchEventSource} from "@microsoft/fetch-event-source";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import {BeatLoader} from "react-spinners";
+import {VideoJS} from "./videoJS.tsx";
 
 type Season = "spring" | "summer" | "fall" | "winter";
 
@@ -49,6 +50,20 @@ export default function Plan() {
                 }
             }
         })
+    }
+
+    const getPlayerMetadata = (source: string) => {
+        return {
+            "fill": true,
+            "fluid": true,
+            "autoplay": false,
+            "controls": true,
+            "preload": "metadata",
+            "sources": [{
+                "src": source,
+                "type": "application/x-mpegURL"
+            }]
+        };
     }
 
     return (
@@ -102,13 +117,11 @@ export default function Plan() {
                     <Markdown remarkPlugins={[remarkGfm]} className="text-left">{answer}</Markdown>
                 </div>
                 <hr className="my-2"/>
-                <div className="flex-col flex items-center">
+                <div className="">
                     <h1 className="text-xl text-darker-green mb-1">Videos to learn more:</h1>
                     {videoUrls.map((url, index) => (
                         <div className="mb-1" key={index}>
-                            <video width="352" height="198" controls>
-                                <source src={url} type="application/x-mpegURL"/>
-                            </video>
+                            <VideoJS {...getPlayerMetadata(url)} />
                         </div>
                     ))}
                 </div>

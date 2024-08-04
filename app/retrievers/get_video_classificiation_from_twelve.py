@@ -38,8 +38,6 @@ classification = [
 
 
 def get_classified_videos_from_twelve(state: dict) -> dict:
-    print("getting videos")
-
     load_dotenv()
     client = TwelveLabs(api_key=os.getenv("TL_API_KEY"))
 
@@ -51,7 +49,6 @@ def get_classified_videos_from_twelve(state: dict) -> dict:
 
     filtered_search = []
     unique_vids_id = []
-    # print("classified_result =", classified_result.data.root)
     for clips in classified_result.data.root:
         if clips.video_id not in unique_vids_id and clips.classes.root[0].name == state["destination"]:
             unique_vids_id.append(clips.video_id)
