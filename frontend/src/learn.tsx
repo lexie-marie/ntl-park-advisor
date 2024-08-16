@@ -4,10 +4,15 @@ import {BeatLoader} from "react-spinners";
 import Markdown from "react-markdown";
 import {VideoJS} from "./videoJS.tsx";
 
+interface VideoData {
+video_id: string;
+video_url: string;
+transcript: string;
+}
 interface Message {
     message: string;
     isUser: boolean;
-    sources?: string[];
+    video_sources?: string[];
 }
 
 export default function Learn() {
@@ -17,8 +22,9 @@ export default function Learn() {
     const [showSpinner, setShowSpinner] = useState<boolean>(false)
     const [sources, setSources] = useState<string[]>([])
 
-    function handleReceiveMessage(answer: string, video_urls: string[], source_urls: string[]) {
-        setMessages(prevMessages => [...prevMessages, {message: answer, isUser: false, sources: video_urls}]);
+    function handleReceiveMessage(answer: string, video_urls: VideoData[], source_urls: string[]) {
+        const urls = video_urls.map(video => video.video_url)
+        setMessages(prevMessages => [...prevMessages, {message: answer, isUser: false, video_sources: urls}]);
         setSources(source_urls)
         setShowSpinner(false)
     }
@@ -44,7 +50,7 @@ export default function Learn() {
                         const chat_results = parsed_data['chat_with_docs']
                         const answer = chat_results['answer']
                         const source_urls = chat_results['sources']
-                        const video_urls = chat_results['video_urls']
+                        const video_urls = chat_results['relevant_videos']
                         handleReceiveMessage(answer, video_urls, source_urls);
                     }
                 }
@@ -85,9 +91,10 @@ export default function Learn() {
 
                         {!message.isUser && (
                             <>
+                            {!!message.video_sources && <>
                                 <div className="text-lg text-darker-green my-4">Videos for you:</div>
                                 <div className="text-xs">
-                                    {message.sources?.map((source, index) => (
+                                    {message.video_sources?.map((source, index) => (
                                         <div key={index}>
                                             {
                                                 <VideoJS {...getPlayerMetadata(source)} />
@@ -95,6 +102,7 @@ export default function Learn() {
                                         </div>
                                     ))}
                                 </div>
+                            </>}
                                 <div className="text-xs">
                                     {sources.map((source, index) => (
                                         <div key={index}>

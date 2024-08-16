@@ -8,6 +8,7 @@ class LeaningGraphState(TypedDict):
     chat_history: List[object] = []
     documents: List[Document] = []
     relevant_docs: List[Document] = []
+    relevant_videos: List[object] = []
     video_urls: List[str] = []
     transcript_data: List[object] = []
     answer: str

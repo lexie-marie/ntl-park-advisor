@@ -8,11 +8,13 @@ from app.retrievers.ask_the_internet import ask_the_internet
 from app.retrievers.doc_store.learning_get_docs_from_vectorstore import get_learning_docs_from_vector_store
 from app.retrievers.get_videos_from_twelve import get_videos_from_twelve
 from app.validate_docs.validate_learning_docs import validate_learning_docs
+from app.validate_docs.validate_videos import validate_videos
 
 workflow = StateGraph(LeaningGraphState)
 
 workflow.add_node("get_docs_from_vector_store", get_learning_docs_from_vector_store)
 workflow.add_node("validate_docs", validate_learning_docs)
+workflow.add_node("validate_videos", validate_videos)
 workflow.add_node("get_videos", get_videos_from_twelve)
 workflow.add_node("chat_with_docs", chat_with_docs)
 workflow.add_node("ask_the_internet", ask_the_internet)
@@ -25,7 +27,8 @@ workflow.add_conditional_edges("validate_docs",
                                    "ask_the_internet": "ask_the_internet",
                                })
 workflow.add_edge("ask_the_internet", "get_videos")
-workflow.add_edge("get_videos", "chat_with_docs")
+workflow.add_edge("get_videos", "validate_videos")
+workflow.add_edge("validate_videos", "chat_with_docs")
 workflow.add_edge("chat_with_docs", END)
 
 workflow.set_entry_point("get_docs_from_vector_store")
